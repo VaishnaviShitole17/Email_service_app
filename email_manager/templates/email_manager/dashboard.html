@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Email Dashboard</h1>
+        <p>Welcome to the email-sending dashboard!</p>
+
+        <!-- Links for CSV upload and email status -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <a href="{% url 'email_upload' %}" class="btn btn-primary">Upload CSV</a>
+            </div>
+            <div class="col-md-6 text-right">
+                <a href="{% url 'email_status' %}" class="btn btn-info">View Email Status</a>
+            </div>
+        </div>
+
+        <h4>Email Statuses</h4>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Company Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Delivery Status</th>
+                    <th>Email Opened</th>
+                    <th>Failure Reason</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for email in emails %}
+                    <tr>
+                        <td>{{ email.company_name }}</td>
+                        <td>{{ email.email }}</td>
+                        <td>
+                            {% for status in email_statuses %}
+                                {% if status.email_data == email %}
+                                    {{ status.status }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for status in email_statuses %}
+                                {% if status.email_data == email %}
+                                    {{ status.delivery_status }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for status in email_statuses %}
+                                {% if status.email_data == email %}
+                                    {{ status.opened }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for status in email_statuses %}
+                                {% if status.email_data == email %}
+                                    {{ status.failure_reason }}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
